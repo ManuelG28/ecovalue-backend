@@ -18,6 +18,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         //Asks User class for validating input data
+
         $validator = User::validateRegister($request);
         if ($validator->fails()){
             return response()->json([

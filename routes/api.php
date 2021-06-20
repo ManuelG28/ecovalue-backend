@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrganizationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,13 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/user', [AuthController::class, 'userInfo'])->middleware('auth:sanctum');
 
+/**
+ * Routes for orgnanization management
+ */
+Route::post('/org/create', [OrganizationController::class, 'create'])->middleware('auth:sanctum');
+Route::get('/org/list', [OrganizationController::class, 'list'])->middleware('auth:sanctum');
+Route::delete('/org/delete', [OrganizationController::class, 'delete'])->middleware('auth:sanctum');
+
+/**
+ * Routes for diagnostic management
+ */

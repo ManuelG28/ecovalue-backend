@@ -1,14 +1,13 @@
-
 <?php
-/*
- * @author:    Santiago Gil Zapata 
- * @email:     sgilz@eafit.edu.co
+
+/**
+ * @author: Santiago Gil
+ * @email: sgilz@eafit.edu.co
  */
 
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
 class OrganizationResource extends JsonResource
 {
     public function toArray($request)
