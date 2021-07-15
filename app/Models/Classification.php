@@ -48,7 +48,7 @@ class Classification extends Model
 
     public function diagnostic()
     {
-        return $this->hasOne(Diagnostic::class);
+        return $this->belongsTo(Diagnostic::class);
     }
 
     public static function validate(Request $request)

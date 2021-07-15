@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnostic;
+use App\Models\Classification;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+
+use Illuminate\Support\Facades\Http;
 
 class DiagnosticController extends Controller
 {
@@ -19,35 +22,32 @@ class DiagnosticController extends Controller
         }
         $validatedData = $validator->validated();
 
-        //creates the new diagnostic and saves it to DB
-        $diagnostic = Diagnostic::create([
-            'free_cash_flow' => $validatedData['free_cash_flow'],
+        $data= 
+        [
+            'free_cash_flow_to_total_debt' => $validatedData['free_cash_flow_to_total_debt'],
             'accounts_payable_turnover' => $validatedData['accounts_payable_turnover'],
             'operating_margin' => $validatedData['operating_margin'],
             'sales_per_employee' => $validatedData['sales_per_employee'],
             'asset_turnover' => $validatedData['asset_turnover'],
-            'total_debt' => $validatedData['total_debt'],
+            'total_debt_to_total_assets' => $validatedData['total_debt_to_total_assets'],
             'current_ratio' => $validatedData['current_ratio'],
-            'revenue_growth' => $validatedData['revenue_growth'],
+            'revenue_growth_year_over_year' => $validatedData['revenue_growth_year_over_year'],
             'return_on_assets' => $validatedData['return_on_assets']
-        ]);
+        ];
+        //creates the new diagnostic and saves it to DB
+        $diagnostic = Diagnostic::create($data);
 
         //creates the classification
-        $answer= requestAPI('http://localhost:8080/predict',
-        array(
-            'free_cash_flow_to_total_debt' => $validatedData['free_cash_flow'],
-            'accounts_ayable_turnover' => $validatedData['accounts_payable_turnover'],
-            'operating_margin' => $validatedData['operating_margin'],
-            'sales_per_employee' => $validatedData['sales_per_employee'],
-            'asset_turnover' => $validatedData['asset_turnover'],
-            'total_debt_to_total_assets' => $validatedData['total_debt'],
-            'current_ratio' => $validatedData['current_ratio'],
-            'revenue_growth_year_over_year' => $validatedData['revenue_growth'],
-            'return_on_assets' => $validatedData['return_on_assets']
-        )
-        );
-        dd($answer);
+           
+        $answer = Http::post('http://localhost:8080/predict', $data);
+
+        $answer = json_decode($answer->getBody());
+        $cluster= Classification::create([
+            'cluster' => $answer->{'cluster'},
+            'human_readable_msg' => $answer->{'state'} 
+        ]);
         
+        dd($cluster);
         
         //creates the advise
 
@@ -64,7 +64,7 @@ class DiagnosticController extends Controller
         $client = new Client();
         $api_url = $url;
 
-        $response = $client->post(
+        $response = $client->request('POST',
             $api_url, 
             $data
         );

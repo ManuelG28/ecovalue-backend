@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 use function PHPUnit\Framework\once;
 
-class CreateClassificationssTable extends Migration
+class CreateAdvisesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,15 +15,20 @@ class CreateClassificationssTable extends Migration
      */
     public function up()
     {
-        Schema::create('classifications', function (Blueprint $table) {
+        Schema::create('advises', function (Blueprint $table) {
             $table->id();
+            /*
             $table->foreignId("diagnostic_id")
                 ->nullable(false)
                 ->references("id")->on("diagnostics")
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
-            $table->string('cluster');
-            $table->string('human_readable_msg');
+                */
+            $table->string('leverage');
+            $table->string('growth');
+            $table->string('eficiency');
+            $table->string('cost_effectiveness');
+            $table->string('solvency');
             $table->timestamps();
         });
     }
@@ -35,6 +40,6 @@ class CreateClassificationssTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classifications');
+        Schema::dropIfExists('advises');
     }
 }

@@ -51,6 +51,11 @@ class Organization extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function diagnostic()
+    {
+        return $this->hasMany(Diagnostic::class);
+    }
+
     public static function validate(Request $request)
     {
         return Validator::make($request->all(), [

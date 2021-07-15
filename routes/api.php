@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\DiagnosticController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,9 @@ Route::delete('/org/delete', [OrganizationController::class, 'delete'])->middlew
 
 /**
  * Routes for diagnostic management
+ * ->middleware('auth:sanctum')
  */
-Route::post('/diag/create', [DiagnosticController::class, 'create'])->middleware('auth:sanctum');
-Route::get('/diga/list', [DiagnosticController::class, 'list'])->middleware('auth:sanctum');
-Route::delete('/diag/delete', [DiagnosticController::class, 'delete'])->middleware('auth:sanctum');
+
+Route::post('/diag/create', [DiagnosticController::class, 'create']);
+Route::get('/diga/list', [DiagnosticController::class, 'list']);
+Route::delete('/diag/delete', [DiagnosticController::class, 'delete']);

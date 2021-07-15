@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 use function PHPUnit\Framework\once;
 
-class CreateDiagnosticsTable extends Migration
+class CreateClassificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,14 +15,17 @@ class CreateDiagnosticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('diagnostics', function (Blueprint $table) {
+        Schema::create('classifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("organization_id")
+            /*
+            $table->foreignId("diagnostic_id")
                 ->nullable(false)
-                ->references("id")->on("organizations")
+                ->references("id")->on("diagnostics")
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
-            $table->string('params');
+                */
+            $table->string('cluster');
+            $table->string('human_readable_msg');
             $table->timestamps();
         });
     }
@@ -34,6 +37,6 @@ class CreateDiagnosticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diagnostics');
+        Schema::dropIfExists('classifications');
     }
 }

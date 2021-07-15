@@ -12,14 +12,14 @@ class Diagnostic extends Model
     use HasFactory;
 
     protected $fillable = [
-        'free_cash_flow',
+        'free_cash_flow_to_total_debt',
         'accounts_payable_turnover',
         'operating_margin',
         'sales_per_employee',
         'asset_turnover',
-        'total_debt',
+        'total_debt_to_total_assets',
         'current_ratio',
-        'revenue_growth',
+        'revenue_growth_year_over_year',
         'return_on_assets',
     ];
 
@@ -33,14 +33,14 @@ class Diagnostic extends Model
         $this->attributes['id'] = $id;
     }
 
-    public function getFreeCashFlow()
+    public function getFreeCashFlowToTotalDebt()
     {
-        return $this->attributes['free_cash_flow'];
+        return $this->attributes['free_cash_flow_to_total_debt'];
     }
 
-    public function setFreeCashFlow($fcf)
+    public function setFreeCashFlowToTotalDebt($fcf)
     {
-        $this->attributes['free_cash_flow'] = $fcf;
+        $this->attributes['free_cash_flow_to_total_debt'] = $fcf;
     }
 
     public function getAccounts()
@@ -85,12 +85,12 @@ class Diagnostic extends Model
 
     public function getTotalDebt()
     {
-        return $this->attributes['total_debt'];
+        return $this->attributes['total_debt_to_total_assets'];
     }
 
     public function setTotalDebt($td)
     {
-        $this->attributes['total_debt'] = $td;
+        $this->attributes['total_debt_to_total_assets'] = $td;
     }
 
     public function getCurrentRatio()
@@ -105,12 +105,12 @@ class Diagnostic extends Model
 
     public function getRevenueGrowth()
     {
-        return $this->attributes['revenue_growth'];
+        return $this->attributes['revenue_growth_year_over_year'];
     }
 
     public function setRevenueGrowth($rg)
     {
-        $this->attributes['revenue_growth'] = $rg;
+        $this->attributes['revenue_growth_year_over_year'] = $rg;
     }
 
     public function getReturnOnAssets()
@@ -143,6 +143,11 @@ class Diagnostic extends Model
         $this->attributes['advise'] = $advise;
     }
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+    
     public function classification()
     {
         return $this->hasOne(Classification::class);
@@ -156,14 +161,14 @@ class Diagnostic extends Model
     public static function validate(Request $request)
     {
         return Validator::make($request->all(), [
-            'free_cash_flow' => 'required|numeric|min:0',
+            'free_cash_flow_to_total_debt' => 'required|numeric|min:0',
             'accounts_payable_turnover' => 'required|numeric|min:0',
             'operating_margin' => 'required|numeric|min:0',
             'sales_per_employee' => 'required|numeric|min:0',
             'asset_turnover' => 'required|numeric|min:0',
-            'total_debt' => 'required|numeric|between:0,1',
+            'total_debt_to_total_assets' => 'required|numeric|between:0,1',
             'current_ratio' => 'required|numeric',
-            'revenue_growth' => 'required|numeric',
+            'revenue_growth_year_over_year' => 'required|numeric',
             'return_on_assets' => 'required|numeric|min:0',
         ]);
     }
