@@ -24,11 +24,12 @@ class CreateAdvisesTable extends Migration
                 ->onUpdate("cascade")
                 ->onDelete("cascade");
                 */
-            $table->string('leverage');
-            $table->string('growth');
-            $table->string('eficiency');
-            $table->string('cost_effectiveness');
-            $table->string('solvency');
+            $table->text('leverage');
+            $table->text('growth');
+            $table->text('eficiency');
+            $table->text('liquidity');
+            $table->text('cost_effectiveness');
+            $table->text('solvency');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Diagnostic;
 use App\Models\Classification;
+use App\Models\Advise;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
@@ -42,19 +43,34 @@ class DiagnosticController extends Controller
         $answer = Http::post('http://localhost:8080/predict', $data);
 
         $answer = json_decode($answer->getBody());
-        $cluster= Classification::create([
+        $classification= Classification::create([
             'cluster' => $answer->{'cluster'},
             'human_readable_msg' => $answer->{'state'} 
         ]);
         
-        dd($cluster);
-        
+        $diagnostic -> setClassification($classification->getId());
+
         //creates the advise
 
+        $answer = Http::post('http://localhost:4500/recommend', $data);
+
+        $answer = json_decode($answer->getBody());
+        
+
+        $advise= Advise::create([
+            'leverage' => $answer->{'apalancamiento'},
+            'growth' => $answer->{'crecimiento'},
+            'eficiency' => $answer->{'eficiencia'},
+            'liquidity' => $answer->{'liquidez'},
+            'cost_effectiveness' => $answer->{'rentabilidad'},
+            'solvency' => $answer->{'solvencia'}
+        ]);
+
+        $diagnostic -> setAdvise($advise->getId());
 
         return response()->json([
             "message" => "Diagnostic created successfully",
-            "data" => $organization,
+            "data" => $diagnostic,
         ], 201);
 
     }
