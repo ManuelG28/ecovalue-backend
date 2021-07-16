@@ -117,6 +117,11 @@ class User extends Authenticatable
         return $this->hasMany(Organization::class);
     }
 
+    public function diagnostics()
+    {
+        return $this->hasMany(Diagnostic::class);
+    }
+
     public static function validateRegister(Request $request) 
     {
         //validating fields from the request

@@ -38,9 +38,8 @@ Route::delete('/org/delete', [OrganizationController::class, 'delete'])->middlew
 
 /**
  * Routes for diagnostic management
- * ->middleware('auth:sanctum')
  */
 
-Route::post('/diag/create', [DiagnosticController::class, 'create']);
-Route::get('/diga/list', [DiagnosticController::class, 'list']);
-Route::delete('/diag/delete', [DiagnosticController::class, 'delete']);
+Route::post('/diag/create', [DiagnosticController::class, 'create'])->middleware('auth:sanctum');
+Route::get('/diag/list', [DiagnosticController::class, 'list'])->middleware('auth:sanctum');
+Route::delete('/diag/delete', [DiagnosticController::class, 'delete'])->middleware('auth:sanctum');

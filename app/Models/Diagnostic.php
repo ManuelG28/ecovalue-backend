@@ -21,6 +21,8 @@ class Diagnostic extends Model
         'current_ratio',
         'revenue_growth_year_over_year',
         'return_on_assets',
+        'user_id',
+        'organization_id'
     ];
 
     public function getId()
@@ -33,12 +35,12 @@ class Diagnostic extends Model
         $this->attributes['id'] = $id;
     }
 
-    public function getFreeCashFlowToTotalDebt()
+    public function getFreeCashFlow()
     {
         return $this->attributes['free_cash_flow_to_total_debt'];
     }
 
-    public function setFreeCashFlowToTotalDebt($fcf)
+    public function setFreeCashFlow($fcf)
     {
         $this->attributes['free_cash_flow_to_total_debt'] = $fcf;
     }
@@ -53,12 +55,12 @@ class Diagnostic extends Model
         $this->attributes['accounts_payable_turnover'] = $apt;
     }
     
-    public function getOperationMargin()
+    public function getOperatingMargin()
     {
         return $this->attributes['operating_margin'];
     }
 
-    public function setOperationMargin($om)
+    public function setOperatingMargin($om)
     {
         $this->attributes['operating_margin'] = $om;
     }
@@ -78,7 +80,7 @@ class Diagnostic extends Model
         return $this->attributes['asset_turnover'];
     }
 
-    public function setAsseTTurnover($at)
+    public function setAssetTurnover($at)
     {
         $this->attributes['asset_turnover'] = $at;
     }
@@ -123,24 +125,44 @@ class Diagnostic extends Model
         $this->attributes['return_on_assets'] = $roa;
     }
 
-    public function getClassification()
+    public function getClassificationId()
     {
-        return $this->attributes['classification'];
+        return $this->attributes['classification_id'];
     }
 
-    public function setClassification($classification)
+    public function setClassificationId($classification)
     {
-        $this->attributes['classification'] = $classification;
+        $this->attributes['classification_id'] = $classification;
     }
 
-    public function getAdvise()
+    public function getAdviseId()
     {
-        return $this->attributes['advise'];
+        return $this->attributes['advise_id'];
     }
 
-    public function setAdvise($advise)
+    public function setAdviseId($advise)
     {
-        $this->attributes['advise'] = $advise;
+        $this->attributes['advise_id'] = $advise;
+    }
+
+    public function getOrganizationId()
+    {
+        return $this->attributes['organization_id'];
+    }
+
+    public function setOrganizationId($organization)
+    {
+        $this->attributes['organization_id'] = $organization;
+    }
+
+    public function getUserId()
+    {
+        return $this->attributes['user_id'];
+    }
+
+    public function setUserId($userId)
+    {
+        $this->attributes['user_id'] = $userId;
     }
 
     public function organization()
@@ -158,6 +180,11 @@ class Diagnostic extends Model
         return $this->hasOne(Advise::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function validate(Request $request)
     {
         return Validator::make($request->all(), [
@@ -170,6 +197,7 @@ class Diagnostic extends Model
             'current_ratio' => 'required|numeric',
             'revenue_growth_year_over_year' => 'required|numeric',
             'return_on_assets' => 'required|numeric|min:0',
+            'organization_id' => 'required|integer|max:100'
         ]);
     }
 }
