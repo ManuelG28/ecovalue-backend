@@ -22,7 +22,9 @@ class Diagnostic extends Model
         'revenue_growth_year_over_year',
         'return_on_assets',
         'user_id',
-        'organization_id'
+        'organization_id',
+        'classification_id',
+        'advise_id',
     ];
 
     public function getId()
@@ -197,7 +199,7 @@ class Diagnostic extends Model
             'current_ratio' => 'required|numeric',
             'revenue_growth_year_over_year' => 'required|numeric',
             'return_on_assets' => 'required|numeric|min:0',
-            'organization_id' => 'required|integer|max:100'
+            'organization_id' => 'required|integer|max:100',
         ]);
     }
 }
