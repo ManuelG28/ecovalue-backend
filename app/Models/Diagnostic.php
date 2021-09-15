@@ -202,4 +202,19 @@ class Diagnostic extends Model
             'organization_id' => 'required|integer|max:100',
         ]);
     }
+
+    public static function transform($input)
+    {
+        return [
+            'free_cash_flow_to_total_debt' => $input['free_cash_flow']/$input['liability'],
+            'accounts_payable_turnover' => $input['avg_day_pay_providers']/365,
+            'operating_margin' => ($input['last_period_sales']-$input['cost_sold_merchandise']-$input['operational_cost'])/$input['last_period_sales'],
+            'sales_per_employee' => $input['sales']/$input['employees']/$input['company_age'],
+            'asset_turnover' => $input['sales']/$input['asset'],
+            'total_debt_to_total_assets' => $input['liability']/$input['asset'],
+            'current_ratio' => $input['current_asset']/$input['current_liability'],
+            'revenue_growth_year_over_year' => ($input['last_period_sales']-$input['prev_last_period_sales'])/$input['prev_last_period_sales'],
+            'return_on_assets' => $input['net_profit']/$input['asset']
+        ];
+    }
 }
